@@ -1,18 +1,3 @@
-schema
-  @auth(
-    providers: [
-      {
-        type: jwt
-        issuer: "{{ env.ISSUER_URL }}"
-        secret: "{{ env.JWT_SECRET }}"
-      }
-    ]
-    rules: [{ allow: private }]
-  ) {
-  mutation: Mutation
-  query: Query
-}
-
 type User @model {
   id: ID!
   name: String
