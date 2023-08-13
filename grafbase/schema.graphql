@@ -1,3 +1,7 @@
+schema @auth(rules: [{ allow: public }]) {
+  query: Query
+}
+
 type User @model {
   id: ID!
   name: String
@@ -9,12 +13,12 @@ type User @model {
   authToken: String
 }
 
-type Query {
+extend type Query {
   checkUserExists(email: String!): String
     @resolver(name: "users/check_existing_user")
 }
 
-type Mutation {
+extend type Mutation {
   registerUser(input: UserInput!): String @resolver(name: "users/register_user")
   loginUser(input: LoginInput!): AuthPayload @resolver(name: "users/login_user")
 }
