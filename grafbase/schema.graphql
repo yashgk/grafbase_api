@@ -1,0 +1,52 @@
+schema
+  @auth(
+    providers: [
+      {
+        type: jwt
+        issuer: "{{ env.ISSUER_URL }}"
+        secret: "{{ env.JWT_SECRET }}"
+      }
+    ]
+    rules: [{ allow: private }]
+  ) {
+  mutation: Mutation
+  query: Query
+}
+
+type User @model {
+  id: ID!
+  name: String
+  email: Email
+  password: String
+  shopType: Int
+  createdOn: DateTime
+  lastLogin: DateTime
+  authToken: String
+}
+
+type Query {
+  checkUserExists(email: String!): String
+    @resolver(name: "users/check_existing_user")
+}
+
+type Mutation {
+  registerUser(input: UserInput!): String @resolver(name: "users/register_user")
+  loginUser(input: LoginInput!): AuthPayload @resolver(name: "users/login_user")
+}
+
+input UserInput {
+  name: String
+  email: String
+  password: String
+  shopType: Int
+}
+
+type AuthPayload {
+  token: String
+  id: Int
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
