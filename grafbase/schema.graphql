@@ -2,25 +2,14 @@ schema @auth(rules: [{ allow: public }]) {
   query: Query
 }
 
-type User @model {
-  id: ID!
-  name: String
-  email: Email
-  password: String
-  shopType: Int
-  createdOn: DateTime
-  lastLogin: DateTime
-  authToken: String
-}
-
 extend type Query {
   checkUserExists(email: String!): String
-    @resolver(name: "users/check_existing_user")
+    @resolver(name: "check_existing_user")
 }
 
 extend type Mutation {
-  registerUser(input: UserInput!): String @resolver(name: "users/register_user")
-  loginUser(input: LoginInput!): AuthPayload @resolver(name: "users/login_user")
+  registerUser(input: UserInput!): String @resolver(name: "register_user")
+  loginUser(input: LoginInput!): AuthPayload @resolver(name: "login_user")
 }
 
 input UserInput {
